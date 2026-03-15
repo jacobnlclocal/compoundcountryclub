@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Compound Country Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green-deep: #1a3c0a;
+      --green-dark: #1e4d0f;
+      --green-fairway: #2a5e18;
+      --green-light: #4a7c28;
+      --cream: #faf8f0;
+      --cream-dark: #f0ead6;
+      --gold: #c9a84c;
+      --gold-light: #d4b96a;
+      --brown: #5c4a2a;
+      --white: #ffffff;
+      --text: #2c2c2c;
+      --text-light: #6b6255;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lora', Georgia, 'Times New Roman', serif;
+      color: var(--text);
+      line-height: 1.7;
+      background: var(--cream);
+      padding-top: 76px;
+    }
+
+    /* ── DECORATIVE ELEMENTS ── */
+    .ornament {
+      display: block;
+      text-align: center;
+      color: var(--gold);
+      font-size: 1.5rem;
+      letter-spacing: 0.5em;
+      margin: 1.5rem auto;
+      opacity: 0.7;
+    }
+
+    .rule {
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+      border: none;
+      margin: 1.5rem auto;
+      opacity: 0.5;
+    }
+
+    .rule-white {
+      width: 80px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      border: none;
+      margin: 1.5rem auto;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: var(--cream);
+      border-bottom: 1px solid rgba(26,60,10,0.1);
+      transition: box-shadow 0.3s;
+    }
+
+    header.scrolled {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--green-deep);
+    }
+
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+    }
+
+    .logo-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.03em;
+      line-height: 1.25;
+      color: var(--green-deep);
+    }
+
+    .logo-text span {
+      display: block;
+      font-size: 0.6rem;
+      font-family: 'Lora', serif;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    nav { display: flex; align-items: center; gap: 0; }
+
+    nav a {
+      text-decoration: none;
+      color: var(--green-deep);
+      font-family: 'Lora', serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after, nav a:focus-visible::after, nav a.active::after {
+      width: 60%;
+    }
+
+    nav a:hover, nav a:focus-visible { color: var(--green-fairway); }
+    nav a.active { color: var(--green-dark); }
+    nav a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+
+    .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--green-deep);
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      /* Rich layered green — feels like standing on the course at dusk */
+      background:
+        linear-gradient(175deg, rgba(10,25,5,0.92) 0%, rgba(26,60,10,0.85) 40%, rgba(42,94,24,0.8) 100%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      /* Subtle grass-like texture overlay */
+      background-image:
+        radial-gradient(ellipse at 30% 80%, rgba(74,124,40,0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 20%, rgba(42,94,24,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(74,124,40,0.25) 0%, transparent 40%);
+    }
+
+    /* Diagonal stripe like the mowing pattern on a fairway */
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(255,255,255,0.4) 20px,
+        rgba(255,255,255,0.4) 21px
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      text-align: center;
+      padding: 2rem;
+      max-width: 850px;
+    }
+
+    .hero-crest {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 2rem;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero .rule-white { margin: 1.5rem auto 1.5rem; }
+
+    .hero p {
+      font-family: 'Lora', serif;
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      color: rgba(255,255,255,0.8);
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2.2rem;
+      font-family: 'Lora', serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--green-deep);
+      border-color: var(--gold);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      border-color: var(--gold-light);
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .btn-outline-light:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.7);
+    }
+
+    .btn-green {
+      background: var(--green-deep);
+      color: var(--cream);
+      border-color: var(--green-deep);
+    }
+
+    .btn-green:hover {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+    }
+
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--green-deep);
+      border-color: var(--green-deep);
+    }
+
+    .btn-outline-dark:hover {
+      background: var(--green-deep);
+      color: var(--cream);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; scroll-margin-top: 80px; }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--green-deep);
+      letter-spacing: 0.02em;
+    }
+
+    .section-header p {
+      font-size: 1.05rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      background: var(--white);
+      border-top: 3px solid var(--green-deep);
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-photo {
+      position: relative;
+    }
+
+    .about-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 8px 8px 0 var(--green-deep);
+    }
+
+    .about-photo::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      left: -12px;
+      right: 12px;
+      bottom: 12px;
+      border: 1px solid var(--gold);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.25rem;
+    }
+
+    .about-text .since {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    .about-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      background: var(--cream);
+    }
+
+    .features-row {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+    }
+
+    .feature {
+      flex: 1;
+      max-width: 300px;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .feature-flag {
+      width: 44px;
+      height: 44px;
+      margin: 0 auto 1.25rem;
+    }
+
+    .feature-flag svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .feature h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.6rem;
+    }
+
+    .feature p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .feature-divider {
+      width: 1px;
+      background: var(--gold);
+      opacity: 0.3;
+      align-self: stretch;
+      margin: 1rem 0;
+    }
+
+    /* ── LEGACY ── */
+    .legacy {
+      background: var(--white);
+    }
+
+    .legacy-columns {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .legacy-col {
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .legacy-col h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 1rem;
+    }
+
+    .legacy-col p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1.75rem;
+    }
+
+    .legacy-divider {
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    /* ── TOURNAMENTS ── */
+    .tournaments {
+      background: var(--cream-dark);
+      position: relative;
+    }
+
+    .tournaments::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--green-deep), transparent);
+      opacity: 0.15;
+    }
+
+    .tournament-intro {
+      max-width: 750px;
+      margin: 0 auto 3rem;
+      text-align: center;
+    }
+
+    .tournament-intro p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    .winners-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .winners-column h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--green-deep);
+      margin-bottom: 0;
+    }
+
+    .winners-column h3 span {
+      display: block;
+      font-family: 'Lora', serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    .winner-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(26,60,10,0.06);
+    }
+
+    .winner-year {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      width: 50px;
+    }
+
+    .winner-name {
+      flex: 1;
+      font-size: 0.95rem;
+      color: var(--text);
+      padding: 0 0.75rem;
+    }
+
+    .winner-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      flex-shrink: 0;
+    }
+
+    .summer-league {
+      margin-top: 3rem;
+      background: var(--white);
+      padding: 2rem 2.5rem;
+      border-left: 3px solid var(--gold);
+    }
+
+    .summer-league h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.75rem;
+    }
+
+    .summer-league p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    .summer-league .winner-highlight {
+      display: inline;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── COURSE SCORECARD ── */
+    .course-scorecard {
+      background: var(--green-deep);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-scorecard::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background: repeating-linear-gradient(
+        90deg, transparent, transparent 60px,
+        rgba(255,255,255,0.5) 60px, rgba(255,255,255,0.5) 61px
+      );
+    }
+
+    .course-scorecard .container { position: relative; }
+    .course-scorecard .section-header h2 { color: var(--cream); }
+    .course-scorecard .section-header p { color: rgba(250,248,240,0.6); }
+
+    .scorecard {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .scorecard-row { display: flex; }
+    .scorecard-row + .scorecard-row { border-top: 1px solid rgba(255,255,255,0.08); }
+
+    .scorecard-label {
+      width: 70px;
+      flex-shrink: 0;
+      padding: 0.75rem 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      text-align: center;
+      background: rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scorecard-cells { display: flex; flex: 1; }
+
+    .scorecard-cell {
+      flex: 1;
+      padding: 0.75rem 0.25rem;
+      text-align: center;
+      font-size: 0.9rem;
+      border-left: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .scorecard-cell.hole-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .scorecard-cell.par-number { color: rgba(250,248,240,0.7); }
+    .scorecard-cell.yds-number { color: rgba(250,248,240,0.5); font-size: 0.8rem; }
+
+    /* ── HOLE GUIDE ── */
+    .hole-guide {
+      background: var(--cream);
+    }
+
+    .hole-guide .section-header { margin-bottom: 2.5rem; }
+
+    .holes-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hole-item {
+      border-bottom: 1px solid rgba(26,60,10,0.08);
+    }
+
+    .hole-item:last-child { border-bottom: none; }
+
+    .hole-header {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.25rem 0;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .hole-header:hover .hole-number { background: var(--green-dark); }
+
+    .hole-number {
+      width: 48px;
+      height: 48px;
+      background: var(--green-deep);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .hole-meta {
+      flex: 1;
+    }
+
+    .hole-meta h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      line-height: 1.3;
+    }
+
+    .hole-meta h3 .hole-nickname {
+      color: var(--gold);
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .hole-tags {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .hole-tag {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hole-toggle {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .hole-item.open .hole-toggle {
+      transform: rotate(45deg);
+    }
+
+    .hole-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .hole-item.open .hole-body {
+      max-height: 300px;
+      padding-bottom: 1.5rem;
+    }
+
+    .hole-body p {
+      padding-left: calc(48px + 1.25rem);
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    /* ── ANNOUNCEMENTS ── */
+    .announcements {
+      background: var(--cream);
+    }
+
+    .announcement-list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .announcement-item {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(26,60,10,0.08);
+    }
+
+    .announcement-item:first-child {
+      padding-top: 0;
+    }
+
+    .announcement-featured {
+      background: var(--white);
+      padding: 2rem 2.5rem !important;
+      border-left: 3px solid var(--green-deep);
+      border-bottom: none !important;
+      margin-bottom: 1rem;
+    }
+
+    .announcement-featured h3 {
+      font-size: 1.5rem !important;
+    }
+
+    .leaderboard-section {
+      margin-top: 1.5rem;
+    }
+
+    .leaderboard-section h4 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .leaderboard-section h4:first-child { margin-top: 0; }
+
+    .leaderboard-entries {
+      display: grid;
+      grid-template-columns: 2rem 1fr auto;
+      gap: 0.15rem 0.75rem;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .lb-pos { color: var(--text-light); text-align: right; }
+    .lb-name { color: var(--text); }
+    .lb-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      color: var(--green-deep);
+    }
+    .lb-score.over-par { color: #8b4513; }
+
+    .announcement-expand {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: 'Lora', serif;
+      padding: 0;
+    }
+
+    .announcement-expand:hover { color: var(--green-deep); }
+
+    .announcement-full {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+    }
+
+    .announcement-full.open {
+      max-height: 3000px;
+    }
+
+    .announcement-item:last-child {
+      border-bottom: none;
+    }
+
+    .announcement-date {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.5rem;
+    }
+
+    .announcement-item h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .announcement-item p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* ── GALLERY ── */
+    .gallery {
+      background: var(--white);
+    }
+
+    /* ── CTA ── */
+    .cta {
+      background: var(--cream-dark);
+      text-align: center;
+      position: relative;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0.4;
+    }
+
+    .cta h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .cta p {
+      color: var(--text-light);
+      font-size: 1.05rem;
+      max-width: 550px;
+      margin: 0 auto 2rem;
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-deep);
+      color: rgba(250,248,240,0.5);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-brand img {
+      width: 36px;
+      height: 36px;
+      filter: brightness(0) invert(1);
+      opacity: 0.6;
+    }
+
+    .footer-brand span {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      color: rgba(250,248,240,0.7);
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      color: rgba(250,248,240,0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(250,248,240,0.07);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { display: none; }
+
+      body { padding-top: 68px; }
+
+      nav.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--cream);
+        padding: 1rem;
+        border-bottom: 1px solid rgba(26,60,10,0.1);
+        z-index: 999;
+      }
+
+      nav.open a { padding: 0.6rem 1rem; }
+
+      .menu-toggle { display: block; }
+
+      .about-layout {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .features-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .feature-divider {
+        width: 80px;
+        height: 1px;
+        align-self: auto;
+        margin: 0;
+      }
+
+      .legacy-columns {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .legacy-divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+      }
+
+      section { padding: 3.5rem 1.5rem; }
+
+      .scorecard-label { width: 50px; font-size: 0.6rem; }
+      .scorecard-cell { font-size: 0.75rem; padding: 0.5rem 0.15rem; }
+      .scorecard-cell.hole-number { font-size: 0.85rem; }
+      .scorecard-cell.yds-number { font-size: 0.65rem; }
+
+      .winners-grid { grid-template-columns: 1fr; }
+      .summer-league { padding: 1.5rem; }
+      .hole-body p { padding-left: 0; }
+      .hole-tags { flex-wrap: wrap; gap: 0.4rem; }
+      .hole-number { width: 40px; height: 40px; font-size: 1.1rem; }
+      .leaderboard-entries { grid-template-columns: 2.5rem 1fr auto; gap: 0.1rem 0.5rem; font-size: 0.8rem; }
+      .announcement-featured { padding: 1.5rem !important; }
+      .legacy-col { padding: 1.5rem 0; }
+
+      .footer-links { gap: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .scorecard { overflow-x: auto; }
+      .scorecard-row { min-width: 500px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <img src="logo.png" alt="Compound Country Club" class="logo-icon">
+        <div class="logo-text">
+          Compound<br>Country Club
+          <span>Established 2020</span>
+        </div>
+      </a>
+
+      <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav>
+        <a href="#" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#course">Course</a>
+        <a href="#tournaments">Tournaments</a>
+        <a href="#announcements">Announcements</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+      <img src="logo.png" alt="" class="hero-crest">
+      <h1>Welcome to<br>The Compound Country Club</h1>
+      <hr class="rule-white">
+      <p>What started as one hole in a field has grown into a full 18-hole course &mdash; built by family, fueled by competition, and played with heart.</p>
+      <div class="hero-buttons">
+        <a href="#course" class="btn btn-primary">Explore the Course</a>
+        <a href="register.html" class="btn btn-outline-light">Register for 2026 Classic</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-layout">
+        <div class="about-photo">
+          <img src="course-sign.jpg" alt="Course directional sign at The Compound Country Club">
+        </div>
+        <div class="about-text">
+          <div class="since">Since 2017</div>
+          <h2>About the Course</h2>
+          <hr class="rule" style="margin-left:0;">
+          <p>It all started with one hole in the bottom of a field around 2017 &mdash; just a place for Brian Grant to go out and hit a few balls.</p>
+          <p>The idea grew: a few more holes at different yardages to dial in his game. Over the years the course expanded to around 16 holes, and by 2019 the whole family was playing and building it together.</p>
+          <p>When COVID hit, the course and the competition really took off. With plenty of time outdoors, family rivalry flourished. In 2020 we held our first tournament, The Compound Classic, with just 12 of us competing. It quickly gained popularity, and we added a fall tournament in memory of Patty Grant, the matriarch of the family.</p>
+          <p>After the first PGI in 2020, bunkers were added to raise the difficulty. And before the second Compound Classic, two more holes completed the full 18-hole layout &mdash; with creative combinations of tee boxes to greens. Gotta keep your head on a swivel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <div class="container">
+      <div class="features-row">
+        <div class="feature">
+          <div class="feature-flag">
+            <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="14" y1="8" x2="14" y2="38" stroke="#1a3c0a" stroke-width="1.5"/>
+              <path d="M14 8 L30 14 L14 20 Z" fill="#1a3c0a" opacity="0.8"/>
+              <ellipse cx="14" cy="38" rx="6" ry="2" fill="#1a3c0a" opacity="0.15"/>
+            </svg>
+          </div>
+          <h3>A Course With Character</h3>
+          <p>Born from a passion for perfecting every swing.</p>
+        </div>
+        <div class="feature-divider"></div>
+        <div class="feature">
+          <div class="feature-flag">
+            <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="22" cy="22" r="8" stroke="#1a3c0a" stroke-width="1.5" fill="none"/>
+              <circle cx="22" cy="22" r="3" fill="#1a3c0a" opacity="0.3"/>
+              <path d="M22 6 v4 M22 34 v4 M6 22 h4 M34 22 h4" stroke="#1a3c0a" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+          <h3>Evolving Through Family &amp; Competition</h3>
+          <p>Each hole tells a story of innovation and fun.</p>
+        </div>
+        <div class="feature-divider"></div>
+        <div class="feature">
+          <div class="feature-flag">
+            <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 34 Q22 10 34 34" stroke="#1a3c0a" stroke-width="1.5" fill="none"/>
+              <circle cx="22" cy="18" r="4" fill="#1a3c0a" opacity="0.15" stroke="#1a3c0a" stroke-width="1"/>
+              <path d="M18 32 h8" stroke="#1a3c0a" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Where Every Game Is a Memory</h3>
+          <p>Experience the thrill of family tradition and friendly rivalry.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEGACY -->
+  <section class="legacy">
+    <div class="container">
+      <div class="section-header">
+        <h2>A Legacy in the Making</h2>
+        <hr class="rule">
+      </div>
+      <div class="legacy-columns">
+        <div class="legacy-col">
+          <h3>The Tournament Thrill</h3>
+          <p>From the first 12-player Compound Classic in 2020 to our fall tournament honoring Patty Grant, competition runs deep in this family. Every season brings new rivalries, epic moments, and a growing field of players ready to take on the course.</p>
+          <a href="#tournaments" class="btn btn-green">Learn More</a>
+        </div>
+        <div class="legacy-divider"></div>
+        <div class="legacy-col">
+          <h3>Our Story, Hole by Hole</h3>
+          <p>From Brian's one-hole practice spot to a full 18 with bunkers, creative tee box combos, and named landmarks like Amen Corner and the Highlands. Every hole has a story &mdash; and every swing keeps you on your toes.</p>
+          <a href="#course" class="btn btn-outline-dark">About Our Course</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOURNAMENTS -->
+  <section class="tournaments" id="tournaments">
+    <div class="container">
+      <div class="section-header">
+        <h2>Tournament Champions</h2>
+        <hr class="rule">
+      </div>
+
+      <div class="winners-grid">
+        <div class="winners-column">
+          <h3>The Compound Classic <span>Spring Tournament</span></h3>
+          <div class="winner-row">
+            <span class="winner-year">2020</span>
+            <span class="winner-name">Matt Brown</span>
+            <span class="winner-score">-10</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2021</span>
+            <span class="winner-name">Joseph Hardee</span>
+            <span class="winner-score">-17</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2022</span>
+            <span class="winner-name">Matt Mayer</span>
+            <span class="winner-score">-19</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2023</span>
+            <span class="winner-name">Will Simon</span>
+            <span class="winner-score">-17</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2024</span>
+            <span class="winner-name">Will Simon</span>
+            <span class="winner-score">-20</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2025</span>
+            <span class="winner-name">John Jarratt</span>
+            <span class="winner-score">-21</span>
+          </div>
+        </div>
+
+        <div class="winners-column">
+          <h3>The Patty Grant Invitational <span>Fall Tournament &middot; In Memory of Patty Grant</span></h3>
+          <div class="winner-row">
+            <span class="winner-year">2020</span>
+            <span class="winner-name">Brian Hupp</span>
+            <span class="winner-score">-10</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2021</span>
+            <span class="winner-name">Russell Grant</span>
+            <span class="winner-score">-17</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2022</span>
+            <span class="winner-name">Brent Williamson</span>
+            <span class="winner-score">-18</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2023</span>
+            <span class="winner-name">Cooper Grant</span>
+            <span class="winner-score">-23</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2024</span>
+            <span class="winner-name">Joseph Hardee</span>
+            <span class="winner-score">-22</span>
+          </div>
+          <div class="winner-row">
+            <span class="winner-year">2025</span>
+            <span class="winner-name">Hogan Hardee</span>
+            <span class="winner-score">-21</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summer-league">
+        <h3>The Summer League</h3>
+        <p>In 2023 we kicked off the first Summer League. 10 teams of 2 faced off over three months in match-play style competitions. Standings were kept soccer-style &mdash; 3 points for a victory, 1 for a draw. After the regular season, playoffs were seeded by standings. The team of <span class="winner-highlight">Evan Rumley &amp; Brent Williamson</span> (Off Constantly) won the inaugural Summer League.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCORECARD -->
+  <section class="course-scorecard" id="course">
+    <div class="container">
+      <div class="section-header">
+        <h2>The Scorecard</h2>
+        <hr class="rule-white">
+        <p>18 holes. Par 37. No two rounds play the same.</p>
+      </div>
+
+      <!-- Front 9 -->
+      <div class="scorecard" style="margin-bottom:1.5rem;">
+        <div class="scorecard-row">
+          <div class="scorecard-label">Hole</div>
+          <div class="scorecard-cells">
+            <div class="scorecard-cell hole-number">1</div>
+            <div class="scorecard-cell hole-number">2</div>
+            <div class="scorecard-cell hole-number">3</div>
+            <div class="scorecard-cell hole-number">4</div>
+            <div class="scorecard-cell hole-number">5</div>
+            <div class="scorecard-cell hole-number">6</div>
+            <div class="scorecard-cell hole-number">7</div>
+            <div class="scorecard-cell hole-number">8</div>
+            <div class="scorecard-cell hole-number">9</div>
+          </div>
+        </div>
+        <div class="scorecard-row">
+          <div class="scorecard-label">Par</div>
+          <div class="scorecard-cells">
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+          </div>
+        </div>
+        <div class="scorecard-row">
+          <div class="scorecard-label">Yds</div>
+          <div class="scorecard-cells">
+            <div class="scorecard-cell yds-number">145</div>
+            <div class="scorecard-cell yds-number">125</div>
+            <div class="scorecard-cell yds-number">150</div>
+            <div class="scorecard-cell yds-number">110</div>
+            <div class="scorecard-cell yds-number">140</div>
+            <div class="scorecard-cell yds-number">170</div>
+            <div class="scorecard-cell yds-number">145</div>
+            <div class="scorecard-cell yds-number">135</div>
+            <div class="scorecard-cell yds-number">98</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Back 9 -->
+      <div class="scorecard">
+        <div class="scorecard-row">
+          <div class="scorecard-label">Hole</div>
+          <div class="scorecard-cells">
+            <div class="scorecard-cell hole-number">10</div>
+            <div class="scorecard-cell hole-number">11</div>
+            <div class="scorecard-cell hole-number">12</div>
+            <div class="scorecard-cell hole-number">13</div>
+            <div class="scorecard-cell hole-number">14</div>
+            <div class="scorecard-cell hole-number">15</div>
+            <div class="scorecard-cell hole-number">16</div>
+            <div class="scorecard-cell hole-number">17</div>
+            <div class="scorecard-cell hole-number">18</div>
+          </div>
+        </div>
+        <div class="scorecard-row">
+          <div class="scorecard-label">Par</div>
+          <div class="scorecard-cells">
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">2</div>
+            <div class="scorecard-cell par-number">3</div>
+          </div>
+        </div>
+        <div class="scorecard-row">
+          <div class="scorecard-label">Yds</div>
+          <div class="scorecard-cells">
+            <div class="scorecard-cell yds-number">175</div>
+            <div class="scorecard-cell yds-number">165</div>
+            <div class="scorecard-cell yds-number">120</div>
+            <div class="scorecard-cell yds-number">125</div>
+            <div class="scorecard-cell yds-number">175</div>
+            <div class="scorecard-cell yds-number">105</div>
+            <div class="scorecard-cell yds-number">120</div>
+            <div class="scorecard-cell yds-number">155</div>
+            <div class="scorecard-cell yds-number">210</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOLE-BY-HOLE GUIDE -->
+  <section class="hole-guide">
+    <div class="container">
+      <div class="section-header">
+        <h2>Hole by Hole</h2>
+        <hr class="rule">
+        <p>Know the course before you play it. Click any hole for the full breakdown.</p>
+      </div>
+      <div class="holes-list">
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">1</div>
+            <div class="hole-meta">
+              <h3>Hole 1</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">135 &ndash; 155 yds</span><span class="hole-tag">Flat</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>A surprisingly difficult opener. The 135 to 155 yard hole plays flat with no elevation changes, but the road sits just two yards off the back of the green. Go over and you're bouncing across the fence. Leave it short and you'll need a delicate chip &mdash; too aggressive and you'll roll right over.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">2</div>
+            <div class="hole-meta">
+              <h3>Hole 2</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">115 &ndash; 135 yds</span><span class="hole-tag">Downhill</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>A downhill par 2 where the ideal play is to hit it high and land it on the green, or play it off the hill and let it roll on. Too much speed and you'll end up in Grants Creek just past the back edge. Go long and you're chipping over the creek and under trees.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">3</div>
+            <div class="hole-meta">
+              <h3>Hole 3 &mdash; <span class="hole-nickname">Spaceship Green</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">135 &ndash; 165 yds</span><span class="hole-tag">Downhill</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Another downhill par 2 playing to the largest green on the course. Relatively forgiving &mdash; plenty of room short and long. Pick the right club, aim for the stick, and take your par.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">4</div>
+            <div class="hole-meta">
+              <h3>Hole 4 &mdash; <span class="hole-nickname">Scott's Hole</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">100 &ndash; 120 yds</span><span class="hole-tag">Bunker</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>The first hole with a bunker in play. Depending on the tee box, you either need to hit just left of the trap or carry it entirely. The sand trap &mdash; known as "Scott's Hole" &mdash; sits just below the green. The bunker shot takes skill to clear the ledge. Blade it and you'll fly right over.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">5</div>
+            <div class="hole-meta">
+              <h3>Hole 5 &mdash; <span class="hole-nickname">The Tiger Paw</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~140 yds</span><span class="hole-tag">Uphill</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Slightly uphill with four pot bunkers surrounding the back edge of the green, shaped like a tiger paw. Miss left and you're in the woods. The play is to go at the hole or slightly right. Don't go long.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">6</div>
+            <div class="hole-meta">
+              <h3>Hole 6 &mdash; <span class="hole-nickname">The Eggplant</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">160 &ndash; 180 yds</span><span class="hole-tag">Elevation Change</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>One of the biggest elevation changes on the course. A slimmer green and thick grass up front that kills any bounce make this one of the toughest to hit. You want to land it on the putting surface, but too much topspin sends you into the woods just five yards off the back.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">7</div>
+            <div class="hole-meta">
+              <h3>Hole 7</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~145 yds</span><span class="hole-tag">Uphill &middot; Hidden Bunker</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>An uphill par 2 with a hidden bunker on the front edge of the green that you can't see from the tee. Come up short and you're in the sand. Go too long and you'll bounce over the road and into the trees for a penalty drop.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">8</div>
+            <div class="hole-meta">
+              <h3>Hole 8</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~135 yds</span><span class="hole-tag">Straightforward</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>A relatively easy hole. Trees on the left will knock your ball down and leave an easy chip. Just don't go too long &mdash; parked cars sit off the back of this green.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">9</div>
+            <div class="hole-meta">
+              <h3>Hole 9 &mdash; <span class="hole-nickname">Signature Hole</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">95 &ndash; 100 yds</span><span class="hole-tag">Downhill &middot; Playoff Hole</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Don't let the short yardage fool you. Roll off the back and you're in the creek. Leave it short and you need a feather-touch chip. This is the course's signature hole and the tournament playoff hole that determines prize placements.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">10</div>
+            <div class="hole-meta">
+              <h3>Hole 10</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~175 yds</span><span class="hole-tag">Flat &middot; Tiger Paw Green</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>After making the turn, the course stretches out. A 175-yard straightaway to the Tiger Paw green. Same pot bunkers, same danger &mdash; stay short of the sand and out of the trees behind.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">11</div>
+            <div class="hole-meta">
+              <h3>Hole 11</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~165 yds</span><span class="hole-tag">Downhill &middot; Scott's Hole</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Another long hole, slightly downhill, heading toward Scott's Hole. The tee shot comes from the left, so watch your miss &mdash; anything right finds the bunker.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">12</div>
+            <div class="hole-meta">
+              <h3>Hole 12</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~120 yds</span><span class="hole-tag">Uphill &middot; Hidden Bunker</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Plays uphill to the same green as Hole 7. The hidden bunker is still very much in play from this angle, though you have more room to the right. Avoid going long off the back edge.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">13</div>
+            <div class="hole-meta">
+              <h3>Hole 13 &mdash; <span class="hole-nickname">Reverse Eggplant</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~125 yds</span><span class="hole-tag">Steep Downhill</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Hole 12 in reverse &mdash; same direction, opposite angle, very downhill toward the Eggplant green. Hit it high and land it soft. The front grass won't let much roll through, and the woods lurk just off the back.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">14</div>
+            <div class="hole-meta">
+              <h3>Hole 14</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~175 yds</span><span class="hole-tag">Uphill &middot; Tough</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>One of the longest and toughest holes on the course. 175 yards uphill from the bottom corner to the top terrace. Miss left and long and you're across the road into the Highlands. You have to hit every bit of your club to reach this green.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">15</div>
+            <div class="hole-meta">
+              <h3>Hole 15 &mdash; <span class="hole-nickname">The Highlands I</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~105 yds</span><span class="hole-tag">Blind Shot</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>The first of a two-hole stretch known as "The Highlands" &mdash; added after the course's first year and instantly among the most difficult. A blind tee shot over a massive sticker bush. Clear it, but hit the green &mdash; a small pot bunker guards the front. Left or long means trees.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">16</div>
+            <div class="hole-meta">
+              <h3>Hole 16 &mdash; <span class="hole-nickname">The Highlands II</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~120 yds</span><span class="hole-tag">Pine-Lined</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>Straight away, but the entire fairway and green is lined with pine trees on both sides. A straight shot is critical. Miss long and right, though, and you might clear the trees into an open field with an easy chip back.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">17</div>
+            <div class="hole-meta">
+              <h3>Hole 17</h3>
+              <div class="hole-tags"><span class="hole-tag">Par 2</span><span class="hole-tag">~155 yds</span><span class="hole-tag">Downhill &middot; Forgiving</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>A fairly easy penultimate hole playing 155 yards downhill. Not many bad spots to miss &mdash; just don't club up too much and end up in the trees behind the green.</p>
+          </div>
+        </div>
+
+        <div class="hole-item">
+          <div class="hole-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="hole-number">18</div>
+            <div class="hole-meta">
+              <h3>Hole 18 &mdash; <span class="hole-nickname">The Finisher</span></h3>
+              <div class="hole-tags"><span class="hole-tag">Par 3</span><span class="hole-tag">~210 yds</span><span class="hole-tag">Uphill &middot; The Only Par 3</span></div>
+            </div>
+            <div class="hole-toggle">+</div>
+          </div>
+          <div class="hole-body">
+            <p>The only par 3 on the course. Around 210 yards and uphill, this closing hole plays long no matter how far you hit it. The smart play is to put a solid shot within 20 yards of the hole and chip on for birdie.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section class="announcements" id="announcements">
+    <div class="container">
+      <div class="section-header">
+        <h2>Announcements</h2>
+        <hr class="rule">
+        <p>The latest news from The Compound Country Club.</p>
+      </div>
+      <div class="announcement-list">
+        <div class="announcement-item announcement-featured">
+          <h3>Jarratt, in a Comeback, Wins the Compound Classic</h3>
+          <div class="announcement-date">2025 Compound Classic</div>
+          <p>In a stunning Sunday comeback John Jarratt captures his first Compound Classic he so desperately craved. Going into the weekend many people were eyeing front runner, Will Simon, to capture his third straight. Jarratt continued to have a steady climb up the leaderboard each day on the way to victory, fighting off an opening round -11 from Joseph Hardee. Unfortunately for Simon, his chances for a three peat went the way of the bottle quite early on.</p>
+          <button class="announcement-expand" onclick="this.nextElementSibling.classList.toggle('open'); this.textContent = this.nextElementSibling.classList.contains('open') ? 'Read Less' : 'Read More';">Read More</button>
+          <div class="announcement-full">
+            <p>Jarratt set 2 tournament records this year. The first one is setting the Compound Classic lowest tournament score with a -21, the second was words spoken per golf shot.</p>
+            <p>Speaking of Jarratt's tournament record -21, many people are asking if the course has become too easy and if a course redesign is needed to keep these players in check going forward. All eyes will be turned toward Head of Course Maintenance, Zack Grant, to see what he will do for this year's Patty Grant Invitational, especially with last year's PGI winner shooting a -22 (Joseph Hardee).</p>
+            <p>As a journalist's aside, after watching a few of these guys magically shoot 15 strokes under their average, there were talks this weekend that the Compound Classic handicap system was calculated using horoscopes. Either we've got a room full of sandbaggers, or someone's grandma is out here running the numbers with an abacus. At this point, we might need to record every round and go back for tape review to see who is really telling the truth. The prime example of this is Social Media Intern, Bailey Black, coming in third place shooting a weekend -19. Mr. Black had a handicap rating of 9. To put this into perspective, Grayson Hill's handicap was a 10 and he shot a +32. A 51 shot difference over 3 rounds, with a total of 3 shot difference in handicap. Makes you think.</p>
+            <p>Overall, the championship flight produced the drama and intrigue that a top flight tournament such as this should produce.</p>
+
+            <div class="leaderboard-section">
+              <h4>Championship Flight</h4>
+              <div class="leaderboard-entries">
+                <span class="lb-pos">1.</span><span class="lb-name">John Jarratt</span><span class="lb-score">-21</span>
+                <span class="lb-pos">2.</span><span class="lb-name">Joseph Hardee</span><span class="lb-score">-20</span>
+                <span class="lb-pos">3.</span><span class="lb-name">Bailey Black</span><span class="lb-score">-19</span>
+                <span class="lb-pos">T4.</span><span class="lb-name">Brian Grant</span><span class="lb-score">-17</span>
+                <span class="lb-pos">T4.</span><span class="lb-name">Zack Grant</span><span class="lb-score">-17</span>
+                <span class="lb-pos">T4.</span><span class="lb-name">Gavin Gillespie</span><span class="lb-score">-17</span>
+                <span class="lb-pos">7.</span><span class="lb-name">Cooper Grant</span><span class="lb-score">-16</span>
+                <span class="lb-pos">8.</span><span class="lb-name">Allen Morgan</span><span class="lb-score">-13</span>
+                <span class="lb-pos">9.</span><span class="lb-name">Brent Williamson</span><span class="lb-score">-12</span>
+                <span class="lb-pos">10.</span><span class="lb-name">Scott Brazell</span><span class="lb-score">-11</span>
+                <span class="lb-pos">T11.</span><span class="lb-name">Kirk Neal</span><span class="lb-score">-10</span>
+                <span class="lb-pos">T11.</span><span class="lb-name">Sam Brazell</span><span class="lb-score">-10</span>
+                <span class="lb-pos">13.</span><span class="lb-name">Sheri Bennington</span><span class="lb-score">-9</span>
+                <span class="lb-pos">14.</span><span class="lb-name">Russell Grant</span><span class="lb-score">-5</span>
+                <span class="lb-pos">15.</span><span class="lb-name">Grant Black</span><span class="lb-score over-par">+1</span>
+              </div>
+
+              <h4>1st Flight</h4>
+              <div class="leaderboard-entries">
+                <span class="lb-pos">1.</span><span class="lb-name">Wayne Lee</span><span class="lb-score">-15</span>
+                <span class="lb-pos">2.</span><span class="lb-name">Derek Benton</span><span class="lb-score">-12</span>
+                <span class="lb-pos">3.</span><span class="lb-name">Jacob Nelson</span><span class="lb-score">-9</span>
+                <span class="lb-pos">T4.</span><span class="lb-name">Joey Hardee</span><span class="lb-score">-8</span>
+                <span class="lb-pos">T4.</span><span class="lb-name">Scooter Lewter</span><span class="lb-score">-8</span>
+                <span class="lb-pos">6.</span><span class="lb-name">Mark Nelson</span><span class="lb-score">-5</span>
+                <span class="lb-pos">7.</span><span class="lb-name">Ivan Black</span><span class="lb-score">-3</span>
+                <span class="lb-pos">8.</span><span class="lb-name">Evan Rumley</span><span class="lb-score">-2</span>
+                <span class="lb-pos">T9.</span><span class="lb-name">Steve Whelan</span><span class="lb-score">E</span>
+                <span class="lb-pos">T9.</span><span class="lb-name">Chris Tansey</span><span class="lb-score">E</span>
+                <span class="lb-pos">11.</span><span class="lb-name">Mark Herrman</span><span class="lb-score over-par">+1</span>
+                <span class="lb-pos">12.</span><span class="lb-name">Matt Mayer</span><span class="lb-score over-par">+2</span>
+                <span class="lb-pos">13.</span><span class="lb-name">JJ McMahon</span><span class="lb-score over-par">+3</span>
+                <span class="lb-pos">14.</span><span class="lb-name">Connor Grant</span><span class="lb-score over-par">+4</span>
+                <span class="lb-pos">15.</span><span class="lb-name">Clint Hudson</span><span class="lb-score over-par">+6</span>
+              </div>
+
+              <h4>2nd Flight</h4>
+              <div class="leaderboard-entries">
+                <span class="lb-pos">1.</span><span class="lb-name">Chad Metten</span><span class="lb-score over-par">+7</span>
+                <span class="lb-pos">2.</span><span class="lb-name">Gray Grant</span><span class="lb-score over-par">+11</span>
+                <span class="lb-pos">3.</span><span class="lb-name">Cooper Smith</span><span class="lb-score over-par">+13</span>
+                <span class="lb-pos">4.</span><span class="lb-name">Mark Bennington</span><span class="lb-score over-par">+15</span>
+                <span class="lb-pos">5.</span><span class="lb-name">Jacob Black</span><span class="lb-score over-par">+19</span>
+                <span class="lb-pos">6.</span><span class="lb-name">Grayson Hill</span><span class="lb-score over-par">+32</span>
+                <span class="lb-pos">7.</span><span class="lb-name">Brandon Van Wyk</span><span class="lb-score over-par">+34</span>
+                <span class="lb-pos">8.</span><span class="lb-name">D Grant</span><span class="lb-score over-par">+44</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="announcement-item">
+          <h3>Sunday Tee Times Announced</h3>
+          <div class="announcement-date">Tee Times</div>
+          <p>Second flight tees off at 8:30 with Gray, Vanwick, Hill, and Black. Delaney, Bennington, and Rumbley follow at 8:45. First flight goes at 9:15 with Connor Grant and Matt M., then JJ Mac, Nelson, Herman, and Ivan at 9:30. Benton, Scooter, and Hudson close it out at 10:00 alongside Nelson, Hardee, and more.</p>
+        </div>
+        <div class="announcement-item">
+          <h3>Tee Times Announced for the 6th Annual Compound Classic</h3>
+          <div class="announcement-date">6th Compound Classic</div>
+          <p>First round Friday pairings are set. The 4:00 PM group features Russell Grant, Scooter Lewter, JJ McMahon, and Johnny Jarratt. Cooper Grant kicks off the 4:15 PM group with Ivan Black, Chris Tansey, and Brent Williamson. Joey Hardee and Sheri Bennington tee off at 4:30 PM alongside Brian Grant, Delaney Grant, Mark Benington, and Joseph.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <h2>Gallery</h2>
+        <hr class="rule">
+        <p>Memories from the course, tournaments, and everything in between.</p>
+      </div>
+      <div style="text-align:center;">
+        <a href="#gallery" class="btn btn-green">View Full Gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div class="container">
+      <h2>Ready to Play?</h2>
+      <hr class="rule">
+      <p>Whether you're family, friend, or first-timer, there's always a tee time waiting for you at The Compound.</p>
+      <a href="mailto:info@compoundcountryclub.com" class="btn btn-green">Get in Touch</a>
+      <p style="margin-top:1.25rem;font-size:0.85rem;color:var(--text-light);font-style:normal;"><a href="mailto:info@compoundcountryclub.com" style="color:var(--green-deep);text-decoration:none;letter-spacing:0.03em;">info@compoundcountryclub.com</a></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="logo.png" alt="CCC">
+        <span>Compound Country Club</span>
+      </div>
+      <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#course">Course</a>
+        <a href="#tournaments">Tournaments</a>
+        <a href="#announcements">Announcements</a>
+        <a href="#gallery">Gallery</a>
+        <a href="register.html">Register</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div style="margin-bottom:1rem;font-size:0.8rem;">
+        <a href="mailto:info@compoundcountryclub.com" style="color:rgba(250,248,240,0.5);text-decoration:none;letter-spacing:0.04em;">info@compoundcountryclub.com</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 The Compound Country Club &middot; All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Add subtle header shadow on scroll
+    window.addEventListener('scroll', function() {
+      document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 20);
+    });
+  </script>
+
+</body>
+</html>

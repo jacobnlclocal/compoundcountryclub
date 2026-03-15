@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register &mdash; 2026 Compound Classic | The Compound Country Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green-deep: #1a3c0a;
+      --green-dark: #1e4d0f;
+      --green-fairway: #2a5e18;
+      --cream: #faf8f0;
+      --cream-dark: #f0ead6;
+      --gold: #c9a84c;
+      --gold-light: #d4b96a;
+      --white: #ffffff;
+      --text: #2c2c2c;
+      --text-light: #6b6255;
+    }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      color: var(--text);
+      line-height: 1.7;
+      background: var(--cream);
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--cream);
+      border-bottom: 1px solid rgba(26,60,10,0.1);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--green-deep);
+    }
+
+    .logo-icon { width: 60px; height: 60px; }
+
+    .logo-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.03em;
+      line-height: 1.25;
+      color: var(--green-deep);
+    }
+
+    .logo-text span {
+      display: block;
+      font-size: 0.6rem;
+      font-family: 'Lora', serif;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    nav { display: flex; gap: 0; }
+
+    nav a {
+      text-decoration: none;
+      color: var(--green-deep);
+      font-family: 'Lora', serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      letter-spacing: 0.04em;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after { width: 60%; }
+    nav a:hover, nav a:focus-visible { color: var(--green-fairway); }
+    nav a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--green-deep);
+      margin: 5px 0;
+    }
+
+    /* ── TOURNAMENT HERO ── */
+    .tourney-hero {
+      background: var(--green-deep);
+      color: var(--cream);
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tourney-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 20px,
+        rgba(255,255,255,0.4) 20px, rgba(255,255,255,0.4) 21px
+      );
+    }
+
+    .tourney-hero .content { position: relative; }
+
+    .tourney-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .tourney-hero h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .rule-white {
+      width: 80px;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+      border: none;
+      margin: 1.25rem auto;
+    }
+
+    .tourney-hero .subtitle {
+      font-size: 1.1rem;
+      color: rgba(250,248,240,0.8);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .tourney-details {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .detail-item {
+      text-align: center;
+    }
+
+    .detail-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(250,248,240,0.45);
+      margin-bottom: 0.3rem;
+    }
+
+    .detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .detail-value a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .detail-value a:hover { text-decoration: underline; }
+
+    /* ── REGISTRATION SECTION ── */
+    .registration {
+      padding: 4rem 2rem 5rem;
+    }
+
+    .reg-container {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .reg-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .reg-header h2 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 0.25rem;
+    }
+
+    .rule {
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+      border: none;
+      margin: 1rem auto;
+      opacity: 0.5;
+    }
+
+    .reg-header p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .form-wrapper {
+      background: var(--white);
+      border: 1px solid rgba(26,60,10,0.08);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .form-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--green-deep);
+    }
+
+    .form-wrapper iframe {
+      width: 100%;
+      min-height: 900px;
+      border: none;
+      display: block;
+    }
+
+    .reg-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .reg-note a {
+      color: var(--green-deep);
+      text-decoration: none;
+    }
+
+    .reg-note a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-deep);
+      color: rgba(250,248,240,0.5);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-inner { max-width: 800px; margin: 0 auto; }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-brand img {
+      width: 36px;
+      height: 36px;
+      filter: brightness(0) invert(1);
+      opacity: 0.6;
+    }
+
+    .footer-brand span {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      color: rgba(250,248,240,0.7);
+      font-size: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      color: rgba(250,248,240,0.4);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-email {
+      margin-bottom: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .footer-email a {
+      color: rgba(250,248,240,0.5);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(250,248,240,0.07);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { display: none; }
+      nav.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--cream);
+        padding: 1rem;
+        border-bottom: 1px solid rgba(26,60,10,0.1);
+        z-index: 100;
+      }
+      .menu-toggle { display: block; }
+
+      .tourney-hero { padding: 4rem 1.5rem 2.5rem; }
+      .tourney-details { gap: 1.5rem; }
+      .detail-value { font-size: 1rem; }
+      .registration { padding: 3rem 1rem 4rem; }
+      .form-wrapper { padding: 0.5rem; }
+      .form-wrapper iframe { min-height: 1100px; }
+      .footer-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.png" alt="Compound Country Club" class="logo-icon">
+        <div class="logo-text">
+          Compound<br>Country Club
+          <span>Established 2020</span>
+        </div>
+      </a>
+
+      <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#course">Course</a>
+        <a href="index.html#tournaments">Tournaments</a>
+        <a href="index.html#announcements">Announcements</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- TOURNAMENT HERO -->
+  <div class="tourney-hero">
+    <div class="content">
+      <div class="tourney-label">Registration Now Open</div>
+      <h1>The 2026<br>Compound Classic</h1>
+      <hr class="rule-white">
+      <p class="subtitle">The 7th Annual Championship Tournament</p>
+      <div class="tourney-details">
+        <div class="detail-item">
+          <div class="detail-label">When</div>
+          <div class="detail-value">April 24 &ndash; 26, 2026</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Entry Fee</div>
+          <div class="detail-value">$60</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Payment</div>
+          <div class="detail-value">Venmo <a href="https://venmo.com/u/CCC_LLC-4" target="_blank" rel="noopener">@CCC_LLC-4</a></div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Questions</div>
+          <div class="detail-value"><a href="mailto:info@compoundcountryclub.com">info@compoundcountryclub.com</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGISTRATION FORM -->
+  <section class="registration">
+    <div class="reg-container">
+      <div class="reg-header">
+        <h2>Register Your Spot</h2>
+        <hr class="rule">
+        <p>Fill out the form below to secure your entry into the 2026 Compound Classic.</p>
+      </div>
+      <div class="form-wrapper">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLScYwUbahosduMGQCI9e-vG_lTxsdUX9aYNx50rfVCDuxaKUlA/viewform?embedded=true"
+          title="2026 Compound Classic Registration"
+          loading="lazy"
+        >Loading registration form&hellip;</iframe>
+      </div>
+      <p class="reg-note">
+        Having trouble with the form? <a href="https://docs.google.com/forms/d/e/1FAIpQLScYwUbahosduMGQCI9e-vG_lTxsdUX9aYNx50rfVCDuxaKUlA/viewform" target="_blank" rel="noopener">Open it directly in Google Forms</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="logo.png" alt="CCC">
+        <span>Compound Country Club</span>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#course">Course</a>
+        <a href="index.html#tournaments">Tournaments</a>
+        <a href="index.html#announcements">Announcements</a>
+        <a href="index.html#gallery">Gallery</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-email">
+        <a href="mailto:info@compoundcountryclub.com">info@compoundcountryclub.com</a>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 The Compound Country Club &middot; All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
